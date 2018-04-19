@@ -1,4 +1,4 @@
-# greensoch-demo
+# greensock-demo
 
 > A Vue.js project
 
