@@ -2,8 +2,8 @@
   <div id="app">
     <nav class="navbar is-fixed-top">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+        <a class="navbar-item" href="#">
+          Frogbob
         </a>
         <div class="navbar-burger burger" :class="{'is-active' : isActive}" @click="isActive = !isActive">
           <span></span>
@@ -16,9 +16,6 @@
         <div class="navbar-start">
           <router-link to="/" class="navbar-item">
             Home
-          </router-link>
-          <router-link to="/parallax" class="navbar-item">
-            Parallax
           </router-link>
         </div>
       </div>

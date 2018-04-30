@@ -144,7 +144,11 @@
         </div>
         <div class="columns">
             <div class="is-12 column" id="pinned_wrapper">
+                <div id="sky"></div>
                 <div id="city"></div>
+                <div id="skyline_wrapper">
+                    <div id="skyline"></div>
+                </div>
                 <div id="walker"></div>
             </div>
         </div>
@@ -222,7 +226,11 @@
 
 
             pinContainer() {
-                var scene = new ScrollMagic.Scene({triggerElement: '#pinned_wrapper',triggerHook: 0.4 ,duration: 9920})
+                var scene = new ScrollMagic.Scene({
+                    triggerElement: '#pinned_wrapper',
+                    triggerHook: 'onCenter',
+                    duration: 9920
+                })
                     .setPin('#pinned_wrapper', {pushFollowers: true})
                     .addTo(this.controller);
             },
@@ -253,6 +261,12 @@
                     ease: Power0.easeNone,
                 });
 
+                var moveSkyline = TweenMax.to('#skyline', 1, {
+                    backgroundPositionX: '-500px',
+                    ease: Power0.easeNone,
+                });
+
+
                 var walkcycle = TweenMax.fromTo('#walker', 1,
                     {
                         backgroundPositionX: '0%',
@@ -261,26 +275,38 @@
                     {
                         backgroundPositionX: '100%',
                         ease: SteppedEase.config(6),
-                        repeat: 30
+                        repeat: 20
                     }
                 );
 
                 var walkcycleScene = new ScrollMagic.Scene({
                     triggerElement: '#pinned_wrapper',
                     offset: 200,
+                    duration: '9920px'
+                })
+                // .addIndicators({name: 'walkLoop'})
+                    .setTween(walkcycle)
+                    .addTo(this.controller);
+
+                var backgroundScene = new ScrollMagic.Scene({
+                    triggerElement: '#pinned_wrapper',
+                    offset: 200,
+                    duration: '9920px'
+                })
+                // .addIndicators({name: 'walkLoop'})
+                    .setTween(moveBackground)
+                    .addTo(this.controller);
+
+                var skylineScene = new ScrollMagic.Scene({
+                    triggerElement: '#pinned_wrapper',
+                    offset: 200,
                     duration: 9920
                 })
-                    .addIndicators({name: 'walkLoop'})
-                    .setTween(walkcycle)
-                    .addTo(this.controller)
-            var backgroundScene = new ScrollMagic.Scene({
-                triggerElement: '#pinned_wrapper',
-                offset: 200,
-                duration: 9920
-            })
-                .addIndicators({name: 'walkLoop'})
-                .setTween(moveBackground)
-                .addTo(this.controller)
+                // .addIndicators({name: 'walkLoop'})
+                    .setTween(moveSkyline)
+                    .addTo(this.controller);
+
+
             },
         },
         mounted() {
@@ -288,8 +314,9 @@
             this.pinContainer();
             this.walkIn();
             this.backgroundWalkcycle();
-
-
+        },
+        beforeDestroy() {
+            this.controller.destroy(true);
         }
     }
 </script>
@@ -302,7 +329,7 @@
     }
 
     .column {
-        padding: 2rem;
+        padding: 0.75rem;
     }
 
     #pinned_wrapper {
@@ -311,11 +338,46 @@
         height: 400px;
 
         #city {
+            position: relative;
             width: 100%;
-            height: 100%;
-            background: url('../assets/img/background.png');
+            height: 400px;
+            background-image: url('../assets/img/background.png');
             background-repeat: repeat-x;
             background-size: cover;
+            background-position-y: 23px;
+            z-index: 10;
+        }
+
+        #sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, rgb(155, 180, 223) 0%, rgb(221, 240, 252) 25%);
+            background-repeat: no-repeat;
+            background-position-y: -11px;
+            z-index: 1;
+        }
+
+        #skyline_wrapper {
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            z-index: 5;
+
+            #skyline{
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: url('../assets/img/skyline.png');
+                background-repeat: repeat-x;
+                background-size: contain;
+                background-position-y: 44px;
+                background-position-x: 0;
+            }
         }
 
         #walker {
@@ -324,8 +386,9 @@
             height: 190px;
             width: 250px;
             left: 0;
-            top: 37%;
+            top: 47%;
             transform: translateX(-200px);
+            z-index: 15;
         }
     }
 
