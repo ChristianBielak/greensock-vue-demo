@@ -4,10 +4,11 @@ import Vue from 'vue';
 import App from './App';
 import {TweenMax} from 'gsap';
 Vue.config.productionTip = true;
-
+import router from './router.js';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+    router
 });

@@ -1,6 +1,10 @@
 <template>
     <div class="hello">
-        <h2>click on any circle to start animation</h2>
+        <div class="columns">
+            <div class="is-12 column text-center has-text-centered">
+                <h2>click on any circle to start animation</h2>
+            </div>
+        </div>
         <div class="circles">
             <div v-for="(n) in 10" :key="'circle'+n" @click="moveCricle" class="circle"></div>
         </div>
